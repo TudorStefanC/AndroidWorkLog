@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TudorLog</string>
+    <string name="welcome">Welcome to Tudor\'s Work Log</string>
+    <string name="select_option">Please select one of the options below:</string>
+    <string name="btn_add">Add Shifts</string>
+    <string name="btn_view">View Shifts</string>
+    <string name="new_button">New button</string>
+</resources>

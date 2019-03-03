@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Welcome to Tudor\'s Work Log</string>
+    <string name="select_option">Please select one of the options below:</string>
+    <string name="btn_add">Add Shifts</string>
+    <string name="btn_view">View Shifts</string>
+</resources>
