@@ -1,5 +1,6 @@
 package com.tudor.TudorLog;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class AddActivity extends AppCompatActivity {
 
                 DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
+                    @SuppressLint("SetTextI18n")
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         selectedYear = year;
                         selectedMonth = monthOfYear + 1;
@@ -81,6 +83,7 @@ public class AddActivity extends AppCompatActivity {
 
                 TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
+                    @SuppressLint("SetTextI18n")
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
                         selectedMinute = minute;
@@ -101,6 +104,37 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+        //Implements clock out button
+        clockOut = findViewById(R.id.btn_clock_out);
+        clockOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+
+                    @SuppressLint("SetTextI18n")
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        selectedHour = hourOfDay;
+                        selectedMinute = minute;
+
+                        if (selectedHour < 10){
+                            clockOut.setText("0" + selectedHour + ":" + selectedMinute);
+                        }
+                        if (selectedMinute < 10){
+                            clockOut.setText( selectedHour + ":" + "0" +selectedMinute);
+                        }
+                        if (selectedHour < 10 && selectedMinute < 10){
+                            clockOut.setText("0" + selectedHour + ":" + "0" +selectedMinute);
+                        }
+                    }
+                };
+                TimePickerDialog timePickerEnd = new TimePickerDialog(AddActivity.this, mTimeSetListener, hour, minute, true);
+                timePickerEnd.show();
+            }
+        });
 
     }
 
