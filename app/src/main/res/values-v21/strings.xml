@@ -4,4 +4,8 @@
     <string name="select_option">Please select one of the options below:</string>
     <string name="btn_add">Add Shifts</string>
     <string name="btn_view">View Shifts</string>
+    <string name="clock_out">Clock out</string>
+    <string name="clock_in">Clock in</string>
+    <string name="save">Save</string>
+    <string name="select_a_date">Select a date</string>
 </resources>
