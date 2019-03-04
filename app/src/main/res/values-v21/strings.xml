@@ -8,4 +8,6 @@
     <string name="clock_in">Clock in</string>
     <string name="save">Save</string>
     <string name="select_a_date">Select a date</string>
+    <string name="total_hours" />
+    <string name="info_shifts">Date     Start     End     Hours</string>
 </resources>

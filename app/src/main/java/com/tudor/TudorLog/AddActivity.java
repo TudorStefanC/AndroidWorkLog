@@ -1,24 +1,27 @@
 package com.tudor.TudorLog;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class AddActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-    private TextView date;
-    private Calendar calendar;
+    private TextView date, resulttxt;
+    private Calendar calendar = Calendar.getInstance();
 
     private int selectedYear;
     private int selectedMonth;
@@ -32,8 +35,8 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        mToolbar = findViewById(R.id.toolbar);
-        mToolbar.setTitle("Add Shifts");
+        Toolbar mToolbar = findViewById(R.id.toolbar);
+        mToolbar.setTitle("Add shifts ");
 
         //Implements the "Select a date" text view
         date = findViewById(R.id.selectDate);
@@ -49,7 +52,6 @@ public class AddActivity extends AppCompatActivity {
 
                 DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
-                    @SuppressLint("SetTextI18n")
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         selectedYear = year;
                         selectedMonth = monthOfYear + 1;
@@ -65,12 +67,13 @@ public class AddActivity extends AppCompatActivity {
                         }
                     }
                 };
-                DatePickerDialog datePicker = new DatePickerDialog(AddActivity.this, mDateSetListener, yy, mm,  dd);
+                DatePickerDialog datePicker = new DatePickerDialog(AddActivity.this, mDateSetListener, yy, mm, dd);
+
                 datePicker.show();
             }
         });
 
-        //Implements clock in button
+//Implements clock in button
         clockIn = findViewById(R.id.btn_clock_in);
         clockIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,15 +86,14 @@ public class AddActivity extends AppCompatActivity {
 
                 TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
-                    @SuppressLint("SetTextI18n")
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
                         selectedMinute = minute;
                         if (selectedHour < 10){
                             clockIn.setText("0" + selectedHour + ":" + selectedMinute);
-                        }
+                        } else clockIn.setText(selectedHour + ":" + selectedMinute);
                         if (selectedMinute < 10){
-                            clockIn.setText( selectedHour + ":" + "0" +selectedMinute);
+                            clockIn.setText( selectedHour + ":" + "0" + selectedMinute);
                         }
                         if (selectedHour < 10 && selectedMinute < 10){
                             clockIn.setText("0" + selectedHour + ":" + "0" +selectedMinute);
@@ -109,20 +111,20 @@ public class AddActivity extends AppCompatActivity {
         clockOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //calendar = Calendar.getInstance();
+                //DialogFragment timeFragment = new TimePickerFragment();
+                //timeFragment.show(getFragmentManager(), "timePicker");
+
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
-                    @SuppressLint("SetTextI18n")
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
                         selectedMinute = minute;
-
                         if (selectedHour < 10){
                             clockOut.setText("0" + selectedHour + ":" + selectedMinute);
-                        }
+                        } else clockOut.setText( selectedHour + ":" + selectedMinute);
                         if (selectedMinute < 10){
                             clockOut.setText( selectedHour + ":" + "0" +selectedMinute);
                         }
@@ -136,6 +138,61 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+
+        //Implements save button
+        save = findViewById(R.id.btn_save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String data = date.getText().toString(); //you can create the date string from selectedYear etc directly
+                String clock_In = clockIn.getText().toString();
+                String clock_Out = clockOut.getText().toString();
+
+
+                resulttxt=findViewById(R.id.totalHours);
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                Date d1 = null; //date 1
+                Date d2 = null; //date 2
+                try {
+                    d1 = df.parse(clockIn.getText().toString());
+                    d2 = df.parse(clockOut.getText().toString());
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    System.out.println("Error");
+                }
+                Long result = d2.getTime() - d1.getTime();
+                if (result < 0)
+                {
+                    result = (24*3600000) + result;
+                }
+                int result1= Integer.parseInt(String.valueOf(result/3600000));
+                int result2= Integer.parseInt(String.valueOf(result/60000))%60;
+                String result3="";
+                if (result2 < 10 ) {
+                    result3 = "0";
+
+                }resulttxt.setText(result1 + ":" +
+                        result3+ result2);
+
+
+                //clockIn.setText(Integer.toString(selectedHour) + ":" + Integer.toString(selectedMinute));
+                //int start=selectedHour;
+                //clockOut.setText(Integer.toString(selectedHour) + ":" + Integer.toString(selectedMinute));
+                //int end=selectedHour;
+                //int total = end - start;
+
+                //int clock_in = Integer.parseInt(clock_In);
+                //int clock_out = Integer.parseInt(clock_Out);
+                //int shift_hours = clock_out - clock_in;
+                //String totalHours = Integer.toString(shift_hours);
+               Log.d("AddActivity",clock_In);
+                Log.d("AddActivity",clock_Out);
+                //Log.d("AddActivity",totalHours);
+
+            }
+        });
     }
 
 }
