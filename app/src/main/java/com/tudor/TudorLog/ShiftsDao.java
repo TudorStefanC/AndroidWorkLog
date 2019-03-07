@@ -13,7 +13,7 @@ public interface ShiftsDao {
 
     @Insert
     void insertShifts(Shifts shifts);
-    @Query("DELETE FROM Shifts")
 
+    @Query("DELETE FROM Shifts")
     void deleteAll();
 }

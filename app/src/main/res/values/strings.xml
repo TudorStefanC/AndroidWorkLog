@@ -11,4 +11,8 @@
     <string name="select_a_date">Select a date</string>
     <string name="total_hours" />
     <string name="info_shifts">Date     Start     End     Hours</string>
+    <string name="date">Date</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="hours">Hours</string>
 </resources>
