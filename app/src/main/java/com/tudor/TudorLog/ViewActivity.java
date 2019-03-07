@@ -1,10 +1,13 @@
 package com.tudor.TudorLog;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,14 @@ public class ViewActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle("View shifts");
         mToolbar.setSubtitle("DATE                  START                END                  HOURS");
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddActivity();
+            }
+        });
 
         ArrayList<ShiftsItem> shifts_list = new ArrayList<>();
         shifts_list.add(new ShiftsItem("Date1", "Start1", "End1", "Hours1"));
@@ -45,6 +56,10 @@ public class ViewActivity extends AppCompatActivity {
         myRecyclerView.setLayoutManager(myLayoutManager);
         myRecyclerView.setAdapter(myAdapter);
 
+    }
+    private void showAddActivity() {
+        Intent intent = new Intent(ViewActivity.this, AddActivity.class);
+        startActivity(intent);
     }
 
 }
