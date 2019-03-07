@@ -1,5 +1,6 @@
 package com.tudor.TudorLog;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,16 +17,19 @@ public class ViewActivity extends AppCompatActivity {
     private RecyclerView myRecyclerView;
     private RecyclerView.Adapter myAdapter;
     private RecyclerView.LayoutManager myLayoutManager;
+    public static AppDatabase myAppDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        //Implements the toolbar
         Toolbar mToolbar;
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle("View shifts");
         mToolbar.setSubtitle("DATE                  START                END                  HOURS");
 
+        //implements the Floating Action Bar
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +37,8 @@ public class ViewActivity extends AppCompatActivity {
                 showAddActivity();
             }
         });
+
+        myAppDatabase = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, "database-name").allowMainThreadQueries().build();
 
         ArrayList<ShiftsItem> shifts_list = new ArrayList<>();
         shifts_list.add(new ShiftsItem("Date1", "Start1", "End1", "Hours1"));
