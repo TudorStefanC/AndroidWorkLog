@@ -11,19 +11,26 @@ public class Shifts {
     public int id;
 
     @ColumnInfo(name = "date")
-    public String date;
+    private String date;
 
     @ColumnInfo(name = "clock_in")
-    public String clockIn;
+    private String clockIn;
 
     @ColumnInfo(name = "clock_out")
-    public String clockOut;
+    private String clockOut;
 
     @ColumnInfo(name = "shift_hours")
-    public String string_shift_hours;
+    private String hours;
 
+    //Constructor
+    public Shifts(String date, String clockIn, String clockOut, String hours) {
+        this.date = date;
+        this.clockIn = clockIn;
+        this.clockOut = clockOut;
+        this.hours = hours;
+    }
 
-    //Constructor for setter and getter
+    //Setter and getter
     public int getId() {
         return id;
     }
@@ -56,12 +63,12 @@ public class Shifts {
         this.clockOut = clockOut;
     }
 
-    public String getString_shift_hours() {
-        return string_shift_hours;
+    public String getHours() {
+        return hours;
     }
 
-    public void setString_shift_hours(String string_shift_hours) {
-        this.string_shift_hours = string_shift_hours;
+    public void setHours(String hours) {
+        this.hours = hours;
     }
 }
 
